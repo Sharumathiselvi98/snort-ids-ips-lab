@@ -34,7 +34,7 @@ alert icmp !10.0.2.4/24 any <> any any
 
 ## Project Files
 - snort.html — Full tutorial with screenshots
-- /screenshots — All lab evidence
+- screenshots — All lab evidence
 
 ## Skills Demonstrated
 - IDS/IPS configuration and rule writing
