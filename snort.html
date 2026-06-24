@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>Snort</title>
+<style>
+body {
+  background-color: #FFFFFF;
+  font-family: "Times New Roman", Times, serif;
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    margin: 0 100px;
+}
+.custom-img {
+  margin-left: 50px; 
+
+.logo {
+    margin-left: 1px; 
+    vertical-align: -30px;
+}
+
+  }
+}
+</style>
+</head>
+
+
+<body>
+<header>
+   <h1><img src="snort.png" alt="Logo" class="logo" width="250" height="110">
+    </h1>
+</header>
+
+<h1>Introduction:</h1>
+<p>Snort is a Intrusion Prevention System (IPS) used globally. It keeps an eye on network traffic using a rule-based approach. With its predefined rules, it spots and alerts about suspicious activities in real-time. These rules help it detect various security threats, like unauthorized access or strange behavior on the network. Snort gives network administrators the power to protect their networks from cyber threats, ensuring they stay safe and secure.</p>
+
+<h4>Defenection:</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Snort is the foremost Open Source Intrusion Prevention System (IPS) in the world. Snort IPS uses a series of rules that help define malicious network activity and uses those rules to find packets that match against them and generate alerts for users.</p>
+<h4>Instruction detection system:</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;IDS can identify threats but require user assistance to stop them.</p>
+<h4>Instruction prevention system:</h4>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;IPS can identify and block the threats with less user assistance at the detection time.</p>
+
+
+<h1>Installation and configuration:</h1>
+
+<p>To install snort in linux.
+</p>
+<div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 160px;">
+  <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">sudo apt install snort</span>
+  </pre>
+</div>
+<p>At the end of installation you will get a “Packet configuration pop -up” - check the ip address if not change your device id address and hit ok.</p>
+<p>Configuration file where users can define the various parameters  and rules for snort operations.</p>
+<p>Open the Snort configuration file located at etc/snort.conf, and replace the value "any" with the IP address of your device in the line containing "ipvar HOME_NET any".</p>
+<img src="snort.conf.png"  class="custom-img">
+
+<p>Save the file,then run the snort.conf file in test mode. This will allow administrators to verify that the configuration file is correctly written and does not contain any errors. </p>
+<div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 360px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">sudo snort  -T -i enp0s3 -c /etc/snort/snort.conf</span>
+    </pre>
+  </div>
+<br>
+<img src="run conf test mode.png" class="custom-img">
+
+<h1>Tutorial:</h1>
+<h4>Snort rule structure:</h4>
+<img src="table.png"  class="custom-img">
+<h2>Rule syntax:</h2>
+<div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 640px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert icmp any any <> any any (msg: “ICMP alert”; reference:CVE-XXX;  sid:1000001; rev:1)
+    </span>
+    </pre>
+  </div>
+  <ul>
+    <li>msg - message</li>
+    <li>reference - reference</li>
+    <li>sid - rule id    </li>
+    <li>rev -  revision information</li>
+  </ul>
+  <h4>IP Filtering</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 640px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert icmp IP_address any <> any any  (msg: "ICMP Packet From "; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each ICMP packet originating from the 10.0.2.4 IP address.</p>
+
+  <h4>Filter an IP range</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 640px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert icmp IP_address/24 any <> any any (msg: "ICMP Packet Found"; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each ICMP packet originating from the 10.0.2.4/24 subnet.</p>
+
+  <h4>Filter multiple IP ranges</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 750px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert icmp [IP_address1/24, IP_address2/24] any <> any any (msg: "ICMP Packet Found"; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each ICMP packet originating from the 10.0.2.4/24 and 10.0.2.5/24 subnets.</p>
+  
+  <h4>Exclude IP addresses</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 640px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert icmp !IP_address/24 any <> any any (msg: "ICMP Packet Found"; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each ICMP packet not originating from the 10.0.2.4/24 subnet.</p> 
+
+  <h4>Port Filtering</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 690px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert tcp any any <> any 21 (msg: "FTP Port 21 Command Activity Detected"; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each TCP packet sent to port 21.</p> 
+  
+  <h4>Exclude a specific port</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 790px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert tcp any any <> any !21 (msg: "Traffic Activity Without FTP Port 21 Command Channel"; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each TCP packet not sent to port 21.</p> 
+
+  <h4>Filter a port range</h4>
+  <div style="background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 5px; padding: 7px; width: 690px;">
+    <pre style="font-family: monospace; margin: 0;"><span style="color: #6C6D6B;">alert tcp any any <> any 1:1024 (msg: "TCP 1-1024 System Port Activity"; sid: 100001; rev:1;)
+    </span>
+    </pre>
+  </div>
+  <p>This rule will create an alert for each TCP packet sent to ports between 1-1024.</p> 
+
+
+  <h4>Example: ICMP Traffic alert</h4>
+  <p>To test Snort for ICMP traffic alerts, you need an internal network connection between the two virtual machines (you can use the ping command to check). Then, write the rule to generate alerts for ICMP traffic in the local.rules test file, which is located in /etc/snort/rules/local.rules.  </p>
+  <img src="rule.png"  class="custom-img">
+  <p>The command runs Snort in console mode, displaying alerts directly in the terminal. It loads the custom rules file (/etc/snort/rules/local.rules) to define specific detection criteria, such as ICMP traffic. With this setup, whenever Snort detects ICMP traffic matching the rules, it generates and displays alerts on the console, providing real-time monitoring of network activity.</p>
+  <img src="run rule.png"  class="custom-img">
+  <p>Establish a connection from another server within the same internal network as Snort. Then, execute the "ping" command targeting the IP address specified in the Snort configuration file (snort.conf). This action simulates network traffic and allows for the analysis of ICMP packets by Snort, potentially resulting in the generation of alerts based on predefined rules.</p>
+  <img src="icmp detection.png"  class="custom-img">
+  <p>
+    Following the execution of the ping command, monitor the console window to observe alerts appearing in real-time. These alerts signify Snort's detection of ICMP traffic based on the configured ruleset, providing insights into potential network anomalies or security threats.</p>
+
+    <h1>Conclusion:</h1>
+
+    <p>The structure of Snort rules typically consists of the following components: header, rule options, and rule actions. These elements define the conditions for detecting network traffic patterns and specifying actions to take upon detection. In conclusion, Snort rules are essential for customizing intrusion detection and prevention capabilities to protect networks from various security threats.</p>
+  
+</body>
+</html>
